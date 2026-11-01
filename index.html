@@ -30,7 +30,7 @@
 <meta name="twitter:description" content="Jeu rétro vu de dessus, gratuit, dans ton navigateur.">
 <meta name="twitter:image" content="https://kivora-engine.github.io/kyvorex-city/assets/og-image.png">
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=2">
 </head>
 <body>
 
@@ -41,7 +41,10 @@
     <div class="btn" data-ctrl="left">&#9664;</div>
     <div class="btn" data-ctrl="right">&#9654;</div>
   </div>
-  <div id="mute">&#9834;</div>
+  <div id="pad-centre">
+    <div id="plein"></div>
+    <div id="mute">&#9834;</div>
+  </div>
   <div class="pad-right">
     <div class="btn" data-ctrl="gas">&#9650;</div>
     <div class="btn" data-ctrl="brake">&#9660;</div>
@@ -98,6 +101,7 @@
 <script src="js/render/draw-wanted-hud.js"></script>
 <script src="js/render/draw-score-hud.js"></script>
 <script src="js/main.js"></script>
+<script src="js/input/fullscreen.js"></script>
 <script src="js/debug-loader.js"></script>
 
 </body>

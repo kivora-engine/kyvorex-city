@@ -173,3 +173,38 @@ html, body {
   background: #ff5555;
   transform: rotate(-45deg);
 }
+
+/* Colonne centrale : plein écran + muet */
+#pad-centre {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+/* Bouton plein écran (masqué si le navigateur ne le gère pas) */
+#plein {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #e8f1ff;
+  background: rgba(40, 60, 80, 0.35);
+  border: 2px solid rgba(180, 220, 255, 0.35);
+  border-radius: 12px;
+  pointer-events: auto;
+  z-index: 50;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#plein.dispo { display: flex; }
+#plein svg { width: 22px; height: 22px; pointer-events: none; }
