@@ -27,6 +27,8 @@
 
     GAME.camera.w = w;
     GAME.camera.h = h;
+
+    if (GAME.render3d && GAME.render3d.enabled) GAME.render3d.resize(w, h);
   }
 
   function boucle(temps) {
@@ -46,8 +48,13 @@
     GAME.camera.follow(dt);
 
     // --- Rendu (toujours actif) ---
-    GAME.drawGround(ctx);
-    GAME.drawCity(ctx);
+    if (GAME.render3d && GAME.render3d.enabled) {
+      ctx.clearRect(0, 0, GAME.camera.w, GAME.camera.h);   // canvas 2D transparent : le monde 3D est dessous
+      GAME.render3d.draw();
+    } else {
+      GAME.drawGround(ctx);
+      GAME.drawCity(ctx);
+    }
     GAME.mission.draw(ctx, 'world');
     GAME.police.draw(ctx);
     GAME.drawCar(ctx);
@@ -72,6 +79,7 @@
     redimensionner();
 
     GAME.cityMap.generate();
+    GAME.render3d.init();   // monde en 3D ; si WebGL échoue, l'ancien affichage 2D reste actif
     GAME.car.reset();
     GAME.car.x = GAME.world.spawn.x;
     GAME.car.y = GAME.world.spawn.y;
