@@ -50,14 +50,14 @@
     // --- Rendu (toujours actif) ---
     if (GAME.render3d && GAME.render3d.enabled) {
       ctx.clearRect(0, 0, GAME.camera.w, GAME.camera.h);   // canvas 2D transparent : le monde 3D est dessous
-      GAME.render3d.draw();
+      GAME.render3d.draw();                                // monde, ombres, voitures et marqueur
     } else {
       GAME.drawGround(ctx);
       GAME.drawCity(ctx);
+      GAME.mission.draw(ctx, 'world');
+      GAME.police.draw(ctx);
+      GAME.drawCar(ctx);
     }
-    GAME.mission.draw(ctx, 'world');
-    GAME.police.draw(ctx);
-    GAME.drawCar(ctx);
     GAME.mission.draw(ctx, 'overlay');
     GAME.drawHud(ctx, fps);
     GAME.police.drawHud(ctx);

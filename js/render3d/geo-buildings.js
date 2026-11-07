@@ -5,6 +5,13 @@
 
 window.GAME = window.GAME || {};
 
+// Hauteur d'une maison, choisie par sa position : la même à chaque partie
+GAME.geo.heightOf = function (b) {
+  var cfg = GAME.config.render3d;
+  var niveau = ((Math.floor(b.x) * 73 + Math.floor(b.y) * 19) >>> 0) % cfg.heightLevels;
+  return cfg.heightMin + niveau * cfg.heightStep;
+};
+
 GAME.geo.buildings = function (v) {
   var G = GAME.geo;
   var cfg = GAME.config.render3d;
@@ -16,12 +23,11 @@ GAME.geo.buildings = function (v) {
     var b = list[i];
     var c = G.hex(b.color);
 
-    // Hauteur choisie par la position : la même à chaque partie
-    var niveau = ((Math.floor(b.x) * 73 + Math.floor(b.y) * 19) >>> 0) % cfg.heightLevels;
-    var z1 = cfg.heightMin + niveau * cfg.heightStep;
+    var z1 = G.heightOf(b);
 
     G.walls(v, b.x, b.y, b.w, b.h, z0, z1, c);
     G.rect(v, b.x, b.y, b.w, b.h, z1, c);
+    if (G.details) G.details(v, b, z0, z1, c);   // fenêtres, bord du toit, ventilation
 
     // Contour sombre du toit (2 px, comme avant)
     var zc = z1 + 0.3;
