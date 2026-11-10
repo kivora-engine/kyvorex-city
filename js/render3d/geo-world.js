@@ -32,6 +32,13 @@ GAME.geo.world = function (v) {
     }
   }
 
+  // Pelouses, allées et parkings : à plat, juste au-dessus de l'intérieur des blocs
+  var decor = GAME.world.decor || [];
+  for (i = 0; i < decor.length; i++) {
+    var d = decor[i];
+    G.rect(v, d.x, d.y, d.w, d.h, sh + cfg.interiorLift + (d.layer ? 0.4 : 0.2), G.hex(d.color));
+  }
+
   // Lignes pointillées (mêmes mesures que l'affichage 2D : trait 16, pas 40, épaisseur 4)
   var cLigne = G.hex(col.roadLine);
   var dash = 16, pas = 40, zl = 0.3;

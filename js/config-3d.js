@@ -22,6 +22,10 @@ GAME.config.render3d = {
   heightStep: 10,
   heightLevels: 5,
 
+  // Maisons (toit à deux pentes) et bâtiments publics
+  house: { wall: 22, ridge: 12, eave: 3 },   // hauteur des murs, hauteur du toit, débord du toit
+  poi: { height: 54 },                        // hauteur des bâtiments publics
+
   // Ombrage (1 = couleur d'origine)
   wallBottomShade: 0.55,                           // bas des murs plus sombre
   faceShade: { n: 0.62, s: 0.78, e: 0.70, w: 0.55 }, // nord, sud, est, ouest

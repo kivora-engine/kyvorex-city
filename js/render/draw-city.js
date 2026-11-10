@@ -35,6 +35,17 @@ window.GAME = window.GAME || {};
     }
   }
 
+  // --- Pelouses, allées, parkings (à plat) ---
+  function drawDecor(ctx, cam, decor) {
+    for (var i = 0; i < decor.length; i++) {
+      var d = decor[i];
+      if (d.x + d.w < cam.x || d.x > cam.x + cam.w) continue;
+      if (d.y + d.h < cam.y || d.y > cam.y + cam.h) continue;
+      ctx.fillStyle = d.color;
+      ctx.fillRect(d.x - cam.x, d.y - cam.y, d.w, d.h);
+    }
+  }
+
   // --- Bâtiments (corps + contour + toit) ---
   function drawBuildings(ctx, cam, buildings, colors) {
     for (var i = 0; i < buildings.length; i++) {
@@ -138,6 +149,7 @@ window.GAME = window.GAME || {};
     var colors = GAME.config.colors;
 
     drawBlocks(ctx, cam, cc, colors);
+    drawDecor(ctx, cam, world.decor || []);
     drawBuildings(ctx, cam, world.buildings, colors);
     drawRoadLines(ctx, cam, cc, colors);
   };

@@ -1,6 +1,6 @@
 // kyvorex-city/js/world/city-map.js
-// Rôle : génère GAME.world (dimensions, bâtiments, point de spawn)
-// Dépend de : GAME.config.city
+// Rôle : génère GAME.world (dimensions, bâtiments, quartier de maisons, bâtiments publics, point de spawn)
+// Dépend de : GAME.config.city, GAME.cityGen (gen-district.js)
 // Expose : GAME.world, GAME.cityMap.generate()
 
 window.GAME = window.GAME || {};
@@ -55,11 +55,19 @@ window.GAME = window.GAME || {};
     ];
   }
 
+  function findPoi(cc, bx, by) {
+    for (var i = 0; i < cc.pois.length; i++) {
+      if (cc.pois[i].bx === bx && cc.pois[i].by === by) return cc.pois[i];
+    }
+    return null;
+  }
+
   GAME.cityMap = {
     generate: function () {
       var cc = GAME.config.city;
       var rand = makeRng(cc.seed);
       var buildings = [];
+      var out = { buildings: buildings, decor: [], pois: [] };
 
       // Taille totale : 6 routes + 5 blocs
       var worldSize = cc.blocksX * cc.pitch + cc.roadWidth;
@@ -71,8 +79,17 @@ window.GAME = window.GAME || {};
           var blockX = cc.roadWidth + bx * cc.pitch + cc.sidewalk;
           var blockY = cc.roadWidth + by * cc.pitch + cc.sidewalk;
 
+          // Toujours tiré, même si le bloc est remplacé : les autres blocs gardent leur aspect
           var blds = genBuildings(blockX, blockY, innerW, innerW, rand, cc.palette);
-          for (var k = 0; k < blds.length; k++) buildings.push(blds[k]);
+
+          var poi = findPoi(cc, bx, by);
+          if (poi) {
+            GAME.cityGen.poi(blockX, blockY, innerW, poi, out);
+          } else if (bx <= cc.houses.bxMax) {
+            GAME.cityGen.houses(blockX, blockY, innerW, bx, by, out);
+          } else {
+            for (var k = 0; k < blds.length; k++) buildings.push(blds[k]);
+          }
         }
       }
 
@@ -85,6 +102,8 @@ window.GAME = window.GAME || {};
         width: worldSize,
         height: worldSize,
         buildings: buildings,
+        decor: out.decor,   // pelouses, allées, parkings (à plat, sans collision)
+        pois: out.pois,     // bâtiments publics : commissariat, caserne, hôpital
         spawn: { x: spawnX, y: spawnX, angle: 0 }
       };
     }
