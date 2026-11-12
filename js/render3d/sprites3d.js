@@ -1,7 +1,7 @@
 // kyvorex-city/js/render3d/sprites3d.js
 // Rôle : voitures et marqueur de mission (dessins 2D existants) posés à plat dans la scène 3D, cachés par les maisons
 // Dépend de : GAME.glCam, GAME.glUtil, GAME.drawCar, GAME.drawPolice, GAME.drawMission, GAME.car, GAME.policeCars, GAME.missionState
-// Expose : GAME.sprites3d (init, draw)
+// Expose : GAME.sprites3d (init, draw, VERT, FRAG)
 
 window.GAME = window.GAME || {};
 
@@ -46,6 +46,8 @@ window.GAME = window.GAME || {};
   }
 
   GAME.sprites3d = {
+    VERT: VERT,
+    FRAG: FRAG,
 
     init: function (glContext) {
       gl = glContext;
@@ -66,6 +68,7 @@ window.GAME = window.GAME || {};
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      if (GAME.spriteBatch) GAME.spriteBatch.init(gl);
     },
 
     // À appeler après le monde et les ombres : la caméra GL est déjà à jour
@@ -119,6 +122,8 @@ window.GAME = window.GAME || {};
       gl.drawArrays(gl.TRIANGLES, 0, n * 6);
       gl.depthMask(true);
       gl.disable(gl.BLEND);
+
+      if (GAME.spriteBatch) GAME.spriteBatch.draw();
     }
   };
 })();

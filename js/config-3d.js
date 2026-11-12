@@ -26,6 +26,9 @@ GAME.config.render3d = {
   house: { wall: 22, ridge: 12, eave: 3 },   // hauteur des murs, hauteur du toit, débord du toit
   poi: { height: 54 },                        // hauteur des bâtiments publics
 
+  sprites: { max: 160 },   // nombre maximum de sprites du catalogue (civils, piétons, secours)
+  stress: 0,               // test de charge LOCAL : 60, 120 ou 200 (0 = coupé ; remettre 0 avant le push)
+
   // Ombrage (1 = couleur d'origine)
   wallBottomShade: 0.55,                           // bas des murs plus sombre
   faceShade: { n: 0.62, s: 0.78, e: 0.70, w: 0.55 }, // nord, sud, est, ouest
